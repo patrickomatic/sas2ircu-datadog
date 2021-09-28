@@ -1,9 +1,20 @@
 package main
 
-import "fmt"
+import (
+  "github.com/patrickomatic/health/internal/datadog"
+  "github.com/patrickomatic/health/internal/sas2ircu"
+  "regexp"
+)
 
-// sas2ircu 0 DISPLAY | grep 'Device is a Hard disk' | wc -l
 func main() {
-	fmt.Println("hard drive count")
+  hardDriveLineRegex, _ := regexp.Compile(`^Device\s+is\s+a\s+Hard\s+disk`)
+  hdCount := 0
+  sas2ircu.Display(func (line string) {
+    if hardDriveLineRegex.MatchString(line) {
+      hdCount += 1
+    }
+  })
+
+  datadog.SendCount("system.raid.hard_disk_count", hdCount)
 }
 

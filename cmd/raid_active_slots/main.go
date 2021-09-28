@@ -1,17 +1,19 @@
 package main
 
 import (
-  "fmt"
   "github.com/patrickomatic/health/internal/datadog"
+  "github.com/patrickomatic/health/internal/sas2ircu"
+  "regexp"
 )
 
-/*
-for slot in `/home/health/bin/sas2ircu 0 DISPLAY | fgrep 'Slot #' | cut -d: -f2 | perl -pe 's/^\s*'` (<-- I had to edit this)
-do
-        /home/health/bin/dd_metric "system.raid.active_slots:$slot|s|#health"
-done
-*/
 func main() {
-  datadog.SendMetric("test")
+  slotLineRegex := regexp.MustCompile(`^\s*Slot\s+#\s+:\s+(\d+)`)
+
+  sas2ircu.Display(func (line string) {
+    matches := slotLineRegex.FindStringSubmatch(line)
+    if len(matches) > 1 {
+      datadog.SendSet("system.raid.active_slots", matches[1])
+    }
+  })
 }
 
