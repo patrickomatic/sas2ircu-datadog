@@ -6,9 +6,7 @@ import (
   "os/exec"
 )
 
-const raidController = "0"
-
-func runCommand(subCommand string, eachLineFn func (line string)) {
+func runCommand(raidController string, subCommand string, eachLineFn func (line string)) {
   cmd := exec.Command("sas2ircu", raidController, subCommand)
   stdout, err := cmd.StdoutPipe()
   if err != nil {
@@ -28,10 +26,10 @@ func runCommand(subCommand string, eachLineFn func (line string)) {
   cmd.Wait()
 }
 
-func Display(eachLineFn func (line string)) {
-  runCommand("DISPLAY", eachLineFn)
+func Display(raidController string, eachLineFn func (line string)) {
+  runCommand(raidController, "DISPLAY", eachLineFn)
 }
 
-func Status(eachLineFn func (line string))  {
-  runCommand("STATUS", eachLineFn)
+func Status(raidController string, eachLineFn func (line string))  {
+  runCommand(raidController, "STATUS", eachLineFn)
 }
