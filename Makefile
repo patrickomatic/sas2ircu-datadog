@@ -1,4 +1,8 @@
-GO := go
+GOOS := linux
+
+GOARCH := amd64
+
+GO := env GOOS=$(GOOS) GOARCH=$(GOARCH) go
 
 LIB_FILES := internal/arguments/main.go internal/sas2ircu/main.go internal/datadog/send_metric.go
 
