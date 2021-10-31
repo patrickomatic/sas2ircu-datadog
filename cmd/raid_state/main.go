@@ -20,7 +20,8 @@ func main() {
       match := strings.ToLower(matches[1])
 
       if args.DatadogMetric != "" {
-        datadog.SendSet(args.DatadogMetric, strings.ToLower(matches[1]))
+        // TODO verify that args.DatadogMetric has a "%s" in it or bomb out
+        datadog.SendCount(fmt.Sprintf(args.DatadogMetric, match), 1)
       } else {
         fmt.Println(match)
       }
