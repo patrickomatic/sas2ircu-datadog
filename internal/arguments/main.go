@@ -6,18 +6,18 @@ import (
 )
 
 type ParsedArguments struct {
-  Datadog bool
+  DatadogMetric string
   RaidController string
 }
 
 func ParseArguments() ParsedArguments {
-  datadogFlag := flag.Bool("datadog", false, "send metrics to datadog (default is stdout)")
+  datadogMetricFlag := flag.String("datadogMetric", "", "send metrics to datadog using this name (default is stdout)")
   raidControllerFlag := flag.Int("raidController", 0, "raid controller number (default is 0)")
 
   flag.Parse()
 
   return ParsedArguments{
-    Datadog: *datadogFlag,
+    DatadogMetric: *datadogMetricFlag,
     RaidController: strconv.Itoa(*raidControllerFlag),
   }
 }

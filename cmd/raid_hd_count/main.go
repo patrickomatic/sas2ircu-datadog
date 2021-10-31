@@ -19,10 +19,9 @@ func main() {
     }
   })
 
-  if args.Datadog {
-    datadog.SendCount("system.raid.hard_disk_count", hdCount)
+  if args.DatadogMetric != "" {
+    datadog.SendCount(args.DatadogMetric, hdCount)
   } else {
     fmt.Println(hdCount)
   }
 }
-

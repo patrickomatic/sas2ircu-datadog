@@ -16,8 +16,8 @@ func main() {
     matches := slotLineRegex.FindStringSubmatch(line)
     if len(matches) > 1 {
       match := matches[1]
-      if args.Datadog {
-        datadog.SendSet("system.raid.active_slots", match)
+      if args.DatadogMetric != "" {
+        datadog.SendSet(args.DatadogMetric, match)
       } else {
         fmt.Println(match)
       }

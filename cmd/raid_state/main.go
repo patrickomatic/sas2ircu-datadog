@@ -19,8 +19,8 @@ func main() {
     if len(matches) > 1 {
       match := strings.ToLower(matches[1])
 
-      if args.Datadog {
-        datadog.SendSet("system.raid.volume_state", strings.ToLower(matches[1]))
+      if args.DatadogMetric != "" {
+        datadog.SendSet(args.DatadogMetric, strings.ToLower(matches[1]))
       } else {
         fmt.Println(match)
       }
